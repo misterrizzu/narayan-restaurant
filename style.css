@@ -35,7 +35,16 @@ h1 { font-size: clamp(40px, 7vw, 80px); margin: 12px 0; line-height: .95; }
 .about img, .gallery-grid img { width: 100%; border-radius: 20px; object-fit: cover; }
 .about ul { padding-left: 0; list-style: none; display: grid; gap: 10px; }
 .menu-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
-.menu-item { background: var(--surface); border: 1px solid #e5e7eb; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.menu-item { background: var(--surface); border: 1px solid #e5e7eb; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.menu-item:hover { transform: translateY(-8px); box-shadow: 0 12px 24px rgba(0,0,0,0.1); }
+.item-image-wrapper { position: relative; width: 100%; height: 220px; overflow: hidden; border-radius: 14px; background: #f3f4f6; cursor: pointer; }
+.item-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+.menu-item:hover .item-image { transform: scale(1.05); }
+.image-preview { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; border-radius: 20px; padding: 12px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.2); z-index: 51; max-width: 90vw; max-height: 90vh; animation: popIn 0.3s ease; }
+.image-preview img { width: 100%; max-height: 600px; border-radius: 14px; object-fit: cover; }
+@keyframes popIn { from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+.image-preview-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 50; }
+.image-preview-backdrop.active { display: block; }
 .menu-item h3 { margin: 0; }
 .menu-meta { display: flex; justify-content: space-between; align-items: center; }
 .price { color: var(--brand); font-weight: 800; }
@@ -65,4 +74,11 @@ footer p { margin: 8px 0; color: #d1d5db; }
 @media (max-width: 900px) {
   .menu-grid, .cards, .gallery-grid, .contact, .about { grid-template-columns: 1fr; }
   .nav-links { display: none; }
+  .item-image-wrapper { height: 180px; }
+}
+
+@media (max-width: 768px) {
+  .menu-grid { grid-template-columns: repeat(2, 1fr); }
+  .image-preview { max-width: 95vw; padding: 10px; }
+  .image-preview img { max-height: 500px; }
 }

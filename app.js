@@ -1,18 +1,18 @@
 const WHATSAPP_NUMBER = '919119600421';
 
 const menu = [
-  { id: 1, category: 'Mushroom', name: 'Matar Mushroom', price: 280, desc: 'Tender mushrooms with peas in rich masala.' },
-  { id: 2, category: 'Mushroom', name: 'Mushroom Masala', price: 300, desc: 'Classic thick mushroom curry.' },
-  { id: 3, category: 'Daal', name: 'Dal Fry', price: 150, desc: 'Homestyle yellow lentils, tempered.' },
-  { id: 4, category: 'Daal', name: 'Dal Makhani', price: 240, desc: 'Creamy slow-cooked black lentils.' },
-  { id: 5, category: 'Rice', name: 'Jeera Rice', price: 120, desc: 'Basmati rice tempered with cumin.' },
-  { id: 6, category: 'Rice', name: 'Veg Biryani', price: 200, desc: 'Layered basmati with vegetables.' },
-  { id: 7, category: 'Tandoori', name: 'Butter Naan', price: 45, desc: 'Soft naan finished with butter.' },
-  { id: 8, category: 'Tandoori', name: 'Garlic Naan', price: 50, desc: 'Naan topped with fresh garlic.' },
-  { id: 9, category: 'Paratha', name: 'Paneer Paratha', price: 90, desc: 'Stuffed with spiced paneer filling.' },
-  { id: 10, category: 'Extras', name: 'Mix Raita', price: 90, desc: 'Cooling yogurt with veggies.' },
-  { id: 11, category: 'Tea', name: 'Signature Tea', price: 20, desc: 'NH28 style masala ginger tea.' },
-  { id: 12, category: 'Sweet', name: 'Gulab Jamun (2pc)', price: 40, desc: 'Warm syrupy milk-solid dumplings.' }
+  { id: 1, category: 'Mushroom', name: 'Matar Mushroom', price: 280, desc: 'Tender mushrooms with peas in rich masala.', image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=600&q=80' },
+  { id: 2, category: 'Mushroom', name: 'Mushroom Masala', price: 300, desc: 'Classic thick mushroom curry.', image: 'https://images.unsplash.com/photo-1585257921881-b5bed3e123db?auto=format&fit=crop&w=600&q=80' },
+  { id: 3, category: 'Daal', name: 'Dal Fry', price: 150, desc: 'Homestyle yellow lentils, tempered.', image: 'https://images.unsplash.com/photo-1543379412-3c4e42ad93e7?auto=format&fit=crop&w=600&q=80' },
+  { id: 4, category: 'Daal', name: 'Dal Makhani', price: 240, desc: 'Creamy slow-cooked black lentils.', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80' },
+  { id: 5, category: 'Rice', name: 'Jeera Rice', price: 120, desc: 'Basmati rice tempered with cumin.', image: 'https://images.unsplash.com/photo-1633862534606-9f8f0a9b31fa?auto=format&fit=crop&w=600&q=80' },
+  { id: 6, category: 'Rice', name: 'Veg Biryani', price: 200, desc: 'Layered basmati with vegetables.', image: 'https://images.unsplash.com/photo-1631450032247-7f23f89efdd2?auto=format&fit=crop&w=600&q=80' },
+  { id: 7, category: 'Tandoori', name: 'Butter Naan', price: 45, desc: 'Soft naan finished with butter.', image: 'https://images.unsplash.com/photo-1585335278519-0ffcb649b504?auto=format&fit=crop&w=600&q=80' },
+  { id: 8, category: 'Tandoori', name: 'Garlic Naan', price: 50, desc: 'Naan topped with fresh garlic.', image: 'https://images.unsplash.com/photo-1585794342513-a91e3aadb00a?auto=format&fit=crop&w=600&q=80' },
+  { id: 9, category: 'Paratha', name: 'Paneer Paratha', price: 90, desc: 'Stuffed with spiced paneer filling.', image: 'https://images.unsplash.com/photo-1601487700052-4cd7c1e4ec14?auto=format&fit=crop&w=600&q=80' },
+  { id: 10, category: 'Extras', name: 'Mix Raita', price: 90, desc: 'Cooling yogurt with veggies.', image: 'https://images.unsplash.com/photo-1599599810694-b5ac4dd37e2b?auto=format&fit=crop&w=600&q=80' },
+  { id: 11, category: 'Tea', name: 'Signature Tea', price: 20, desc: 'NH28 style masala ginger tea.', image: 'https://images.unsplash.com/photo-1597318470341-c0fac4d2f8f0?auto=format&fit=crop&w=600&q=80' },
+  { id: 12, category: 'Sweet', name: 'Gulab Jamun (2pc)', price: 40, desc: 'Warm syrupy milk-solid dumplings.', image: 'https://images.unsplash.com/photo-1565958011504-4b90d35e2bae?auto=format&fit=crop&w=600&q=80' }
 ];
 
 const cart = new Map();
@@ -28,6 +28,12 @@ function renderMenu() {
     .map(
       (item) => `
       <article class="menu-item">
+        <div class="item-image-wrapper" onmouseover="showImagePreview(event)" onmouseout="hideImagePreview()">
+          <img src="${item.image}" alt="${item.name}" class="item-image" loading="lazy" />
+          <div class="image-preview hidden" id="preview-${item.id}">
+            <img src="${item.image}" alt="${item.name}" />
+          </div>
+        </div>
         <p class="tag">${item.category}</p>
         <h3>${item.name}</h3>
         <p>${item.desc}</p>
@@ -145,6 +151,34 @@ document.getElementById('placeOrderBtn').addEventListener('click', placeOrder);
 window.addToCart = addToCart;
 window.changeQty = changeQty;
 window.removeItem = removeItem;
+
+function showImagePreview(event) {
+  const wrapper = event.currentTarget;
+  const menuItem = wrapper.closest('.menu-item');
+  const itemImage = menuItem.querySelector('.item-image');
+  const imageSrc = itemImage.src;
+  const item = menu.find(m => m.image === imageSrc);
+  
+  if (item) {
+    const preview = document.getElementById(`preview-${item.id}`);
+    const backdrop = document.getElementById('previewBackdrop');
+    if (preview && backdrop) {
+      preview.classList.remove('hidden');
+      backdrop.classList.add('active');
+      backdrop.onclick = hideImagePreview;
+      preview.onclick = (e) => e.stopPropagation();
+    }
+  }
+}
+
+function hideImagePreview() {
+  document.querySelectorAll('.image-preview').forEach(p => p.classList.add('hidden'));
+  const backdrop = document.getElementById('previewBackdrop');
+  if (backdrop) {
+    backdrop.classList.remove('active');
+    backdrop.onclick = null;
+  }
+}
 
 renderMenu();
 renderCart();
